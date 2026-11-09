@@ -1,0 +1,388 @@
+/* Alfa envelopes: readable type, a white game table and the supplied Alfa palette. */
+:root {
+  --red:#EF3124;
+  --red-hover:#EF3124;
+  --ink:#000000;
+  --muted:#505759;
+  --surface:#FFFFFF;
+  --bg:#FFFFFF;
+  --line:#D9D9D6;
+  --soft:color-mix(in srgb,#D9D9D6 20%,#FFFFFF);
+  --rose:var(--soft);
+  --mint:var(--soft);
+  --green:#505759;
+  --blue:var(--soft);
+  --purple:var(--soft);
+  --amber:var(--soft);
+  --radius-card:22px;
+  --radius-control:12px;
+  --page-width:1440px;
+  --sidebar-width:212px;
+  --layout-gap:28px;
+}
+body { background:var(--bg); color:var(--ink); font-size:16px; line-height:1.55; }
+.bank-app { padding:0 28px 40px; }
+.ui-icon { width:24px; height:24px; flex-shrink:0; vertical-align:middle; }
+:focus-visible { outline:3px solid var(--ink); outline-offset:4px; }
+.eyebrow { display:inline-block; padding:0; border:0; border-radius:0; background:transparent; color:var(--muted); font-size:12px; font-weight:600; letter-spacing:.8px; line-height:1.5; text-transform:uppercase; }
+
+/* The bank stays restrained; its secondary controls are placeholders. */
+.bank-header.app-header { min-height:88px; padding:20px 0; gap:20px; border-bottom:1px solid var(--line); max-width:var(--page-width); }
+.bank-identity { display:flex; align-items:center; flex:0 0 auto; gap:12px; padding:0; background:transparent; color:var(--ink); font-size:16px; font-weight:600; letter-spacing:-.3px; }
+.bank-alpha { display:grid; place-items:center; width:32px; height:36px; color:var(--red); font-size:33px; line-height:1; font-weight:900; border-bottom:4px solid var(--red); }
+.bank-header .primary-nav { flex:1; justify-content:center; gap:0; padding:0; background:transparent; border-radius:0; }
+.bank-header .primary-nav button { min-height:44px; padding:9px 12px; border-radius:9px; color:var(--muted); font-size:14px; background:transparent; }
+.bank-header .primary-nav .icon { width:18px; height:18px; }
+.bank-header .primary-nav button:hover { background:var(--soft); color:var(--ink); }
+.bank-game-launch { display:flex; align-items:center; justify-content:center; flex-shrink:0; gap:9px; min-height:44px; padding:10px 15px; border:1px solid var(--line); border-radius:11px; background:var(--surface); color:var(--ink); font-size:15px; font-weight:600; }
+.bank-game-launch .icon { width:20px; height:20px; color:var(--red); }
+.bank-game-launch:hover { border-color:var(--red); background:var(--soft); }
+.bank-avatar { width:38px; height:38px; flex-shrink:0; border-radius:50%; background:var(--soft); color:var(--muted); font-size:13px; font-weight:600; }
+.app-shell { grid-template-columns:var(--sidebar-width) minmax(0,1fr); column-gap:var(--layout-gap); max-width:var(--page-width); margin-top:30px; }
+.sidebar { position:sticky; top:24px; gap:18px; }
+.bank-summary { padding:8px 0; }
+.bank-summary h2 { margin:16px 0 8px; font-size:14px; font-weight:400; color:var(--muted); }
+.bank-summary > strong { display:block; font-size:29px; font-weight:650; letter-spacing:-.7px; font-variant-numeric:tabular-nums; }
+.bank-product-list { display:grid; gap:5px; margin-top:24px; padding-top:18px; border-top:1px solid var(--line); }
+.bank-product-list button { display:flex; align-items:center; gap:12px; min-height:56px; padding:12px 8px; border-radius:11px; background:transparent; text-align:left; color:var(--muted); font-size:15px; }
+.bank-product-list button:hover { background:var(--soft); }
+.bank-product-list .ui-icon { width:21px; height:21px; }
+.bank-product-list small { display:block; margin-top:4px; color:var(--muted); font-size:12px; }
+.bank-security { display:flex; gap:9px; padding:14px 8px; border-top:1px solid var(--line); color:var(--muted); }
+.bank-security .ui-icon { width:18px; height:18px; }
+.bank-security p { font-size:12px; line-height:1.65; }
+
+/* Common game navigation and forms. */
+.page-content { gap:22px; }
+.game-brand { display:flex; align-items:center; gap:12px; margin-bottom:2px; }
+.game-brand-icon { display:grid; place-items:center; width:46px; height:46px; background:var(--red); color:var(--surface); border-radius:13px 13px 13px 4px; }
+.game-brand-icon .ui-icon { width:27px; height:27px; }
+.game-brand strong { font-size:24px; font-weight:750; letter-spacing:-.6px; }
+.game-brand small { display:block; margin-top:3px; font-size:14px; color:var(--muted); }
+.prototype-toolbar { gap:8px; margin-top:-2px; }
+.prototype-toolbar .btn { min-height:42px; padding:9px 13px; border:1px solid var(--line); border-radius:9px; background:var(--surface); font-size:14px; }
+.prototype-toolbar .btn:hover { background:var(--soft); }
+.page-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:2px; }
+.page-heading .eyebrow { display:block; margin-bottom:8px; font-size:13px; }
+.page-heading h1 { font-size:36px; letter-spacing:-1px; font-weight:750; }
+.player-status { flex-shrink:0; padding:8px 12px; border:1px solid var(--line); border-radius:20px; background:var(--surface); color:var(--muted); font-size:13px; }
+.tabs { display:flex; gap:5px; align-self:flex-start; width:auto; padding:5px; border:1px solid var(--line); border-radius:13px; background:var(--soft); }
+.tabs > .btn { min-height:44px; padding:10px 19px; border-radius:9px; font-size:16px; font-weight:500; background:transparent; color:var(--muted); flex:0 1 auto; }
+.tabs > .btn-dark { color:var(--ink); background:var(--surface); box-shadow:0 2px 5px #0000000D; }
+.tabs > .btn:hover { background:var(--surface); color:var(--ink); }
+.btn { min-height:46px; padding:12px 18px; border-radius:11px; font-size:16px; font-weight:500; }
+.btn-primary { background:var(--red); color:var(--surface); font-size:19px; font-weight:700; box-shadow:0 3px 0 #00000024; }
+.btn-primary:hover { background:var(--red); filter:brightness(.94); transform:translateY(-1px); }
+.btn-primary:active { box-shadow:none; transform:translateY(2px); }
+.btn-secondary { color:var(--ink); border-color:var(--line); background:var(--soft); }
+.btn-quiet { min-height:42px; font-size:14px; color:var(--muted); }
+.content-card { padding:28px; border:1px solid var(--line); border-radius:20px; background:var(--surface); box-shadow:0 2px 8px #00000004; }
+.content-card h2 { font-size:25px; letter-spacing:-.5px; line-height:1.3; }
+.content-card h3 { font-size:21px; line-height:1.4; }
+.prototype-form { gap:18px; }
+.prototype-form input:not([type=checkbox]), .prototype-form select { border:1px solid var(--line); background:var(--surface); border-radius:10px; min-height:50px; padding:13px 15px; font-size:17px; }
+.prototype-form input:focus, .prototype-form select:focus { background:var(--surface); border-color:var(--ink); }
+.prototype-form .form-field > span { font-size:15px; color:var(--muted); }
+.data-row { font-size:15px; gap:16px; line-height:1.55; }
+.data-row > :first-child { color:var(--muted); }
+.data-row > :last-child { flex-shrink:1; }
+.data-row strong { font-weight:650; }
+.prototype-note { color:var(--muted); font-size:14px; line-height:1.7; }
+.form-message, .budget-warning { border-left:3px solid var(--muted); background:var(--soft); color:var(--ink); font-size:15px; }
+.deposit-terms { background:var(--soft); }
+.deposit-terms strong { font-size:15px; }
+.report-table { font-size:15px; }
+.report-table th { color:var(--ink); }
+.transaction-row p, .check-row { font-size:15px; }
+
+/* White tabletop: category names and icons, rather than colour, identify envelopes. */
+.game-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:23px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); gap:24px; }
+.game-stats > div { display:flex; flex-direction:column; gap:7px; min-width:0; }
+.game-stats > div + div { border-left:1px solid var(--line); padding-left:24px; }
+.game-stats span { font-size:15px; color:var(--muted); }
+.game-stats strong { color:var(--ink); font-size:34px; letter-spacing:-1px; font-weight:700; font-variant-numeric:tabular-nums; }
+.game-stats small { font-size:13px; color:var(--muted); line-height:1.5; }
+.game-layout { display:grid; grid-template-columns:minmax(0,1fr) 290px; align-items:start; gap:24px; }
+.game-table-surface { position:relative; min-width:0; padding:28px 24px 16px; border:1px solid var(--line); border-radius:25px; background:var(--soft); box-shadow:0 5px 0 var(--line),0 14px 28px #00000008; }
+.board-caption { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; padding:0 0 26px; }
+.board-caption .eyebrow { display:block; font-size:13px; color:var(--muted); }
+.board-caption h2 { margin-top:8px; color:var(--ink); font-size:27px; font-weight:650; letter-spacing:-.5px; }
+.board-caption > span { font-size:14px; color:var(--muted); }
+.board-status { padding:8px 12px; border:1px solid var(--line); border-radius:20px; background:var(--surface); white-space:normal; }
+.envelope-board { gap:16px; }
+.envelope-board .figma-envelope { position:relative; min-height:224px; gap:8px; padding:18px 16px 21px; border:1px solid var(--line); border-radius:12px 12px 19px 19px; background:var(--surface); color:var(--ink); box-shadow:0 4px 0 var(--line),0 8px 14px #00000006; overflow:visible; transition:transform .18s ease,box-shadow .18s ease; }
+.envelope-board .figma-envelope::before { content:''; position:absolute; left:13px; right:13px; bottom:8px; height:1px; background:var(--line); }
+.envelope-board .figma-envelope:hover { transform:translateY(-3px); box-shadow:0 6px 0 var(--line),0 12px 18px #0000000A; }
+.envelope-symbol { display:grid; place-items:center; width:40px; height:40px; margin-bottom:5px; border:1px solid var(--line); border-radius:11px; background:var(--surface); color:var(--red); }
+.envelope-symbol .ui-icon { width:24px; height:24px; }
+.envelope-board .envelope-name { color:var(--ink); font-size:16px; font-weight:650; line-height:1.4; }
+.envelope-balance { color:var(--ink); font-size:31px; font-weight:700; letter-spacing:-.7px; line-height:1.3; }
+.envelope-board .figma-envelope > span:not(.envelope-symbol):not(.envelope-name) { font-size:14px; line-height:1.5; color:var(--muted); opacity:1; }
+.envelope-board .envelope-spent { padding-top:9px; margin-top:auto; border-top:1px solid var(--line); }
+.envelope-board .envelope-plan { font-size:12px; }
+.envelope-board .figma-envelope[data-tone=outside] { display:grid; grid-template-columns:32px minmax(0,1fr) auto; grid-column:1/-1; gap:12px; align-items:center; min-height:64px; padding:15px 18px; border:1px dashed var(--muted); border-radius:12px; background:var(--surface); color:var(--ink); box-shadow:none; }
+.envelope-board [data-tone=outside] .envelope-symbol { width:32px; height:32px; margin:0; border:0; background:transparent; }
+.envelope-board [data-tone=outside] .envelope-name { font-size:16px; }
+.envelope-board [data-tone=outside] .envelope-balance { font-size:24px; }
+.envelope-board [data-tone=outside] > span:not(.envelope-symbol):not(.envelope-name) { display:none; }
+.envelope-board .is-available { box-shadow:0 4px 0 var(--line),inset 0 0 0 1px var(--muted); }
+.envelope-board .is-suggested { background:var(--surface) !important; color:var(--ink); box-shadow:0 0 0 2px var(--red),0 6px 0 #00000012; }
+.envelope-board .is-drag-over { background:var(--surface) !important; color:var(--ink); box-shadow:0 0 0 4px var(--red),0 10px 22px #00000018; transform:translateY(-5px) scale(1.02); }
+.envelope-board .is-suggested::after, .envelope-board .is-drag-over::after { top:-13px; padding:4px 9px; border:1px solid var(--red); border-radius:7px; background:var(--surface); color:var(--ink); font-size:12px; font-weight:600; box-shadow:0 2px 5px #0000000D; }
+
+/* The hand remains tactile and draggable, with readable purchase details. */
+.game-table-surface .interactive-hand { padding:28px 0 0; margin-top:30px; border:0; border-top:1px solid var(--line); border-radius:0; background:transparent; box-shadow:none; gap:18px; overflow:visible; }
+.game-table-surface .hand-heading h2 { color:var(--ink); font-size:23px; font-weight:650; letter-spacing:-.3px; }
+.game-table-surface .hand-heading .badge { padding:7px 10px; font-size:13px; background:var(--surface); color:var(--muted); border:1px solid var(--line); }
+.game-table-surface .hand-instructions { min-height:0; color:var(--muted); font-size:15px; line-height:1.65; }
+.card-hand { gap:14px; padding:20px 7px 27px; scroll-padding:12px; scrollbar-color:var(--line) transparent; scrollbar-width:thin; }
+.operation-slot { flex:1 0 200px; max-width:265px; }
+.interactive-operation { gap:10px; min-height:298px; padding:20px 17px 17px; border:1px solid var(--line); border-radius:12px; background:var(--surface); color:var(--ink); box-shadow:0 3px 0 var(--line),0 10px 18px #0000000D; }
+.interactive-operation::after { content:''; position:absolute; inset:6px; border:1px solid var(--line); border-radius:7px; pointer-events:none; }
+.operation-slot:nth-child(3n+1) .interactive-operation { transform:rotate(-3deg) translateY(5px); }
+.operation-slot:nth-child(3n+2) .interactive-operation { transform:translateY(-3px); }
+.operation-slot:nth-child(3n) .interactive-operation { transform:rotate(3deg) translateY(5px); }
+.operation-slot .interactive-operation:hover { transform:translateY(-9px) rotate(0); box-shadow:0 4px 0 var(--line),0 17px 23px #00000012; }
+.operation-slot .interactive-operation.is-selected { transform:translateY(-9px) rotate(0); box-shadow:0 0 0 3px var(--red),0 13px 20px #00000012; }
+.operation-category { display:grid; place-items:center; width:42px; height:42px; border:1px solid var(--line); border-radius:11px; background:var(--surface); color:var(--red); }
+.operation-category .ui-icon { width:25px; height:25px; }
+.interactive-operation .operation-amount { margin-top:9px; color:var(--ink); font-size:34px; font-weight:700; letter-spacing:-1px; }
+.operation-name { color:var(--ink); font-size:18px; font-weight:650; }
+.operation-time, .operation-suggestion { font-size:14px; line-height:1.5; color:var(--muted); }
+.operation-hold { border-color:var(--line); color:var(--muted); font-size:12px; padding-top:12px; }
+.operation-grip { top:17px; right:15px; font-size:23px; color:var(--muted); }
+.operation-slot .operation-rule { min-height:44px; color:var(--muted); font-size:14px; background:transparent; }
+.operation-slot .operation-rule:hover { color:var(--ink); background:var(--surface); }
+.game-table-surface .prototype-actions > .btn { min-height:46px; flex-basis:170px; padding:12px 15px; font-size:16px; }
+.game-table-surface .prototype-actions > .btn-primary { color:var(--surface); background:var(--red); font-size:19px; font-weight:700; box-shadow:0 3px 0 #00000024; }
+.game-table-surface .btn-primary:hover { background:var(--red); }
+.game-table-surface .btn-secondary { color:var(--ink); border-color:var(--line); background:var(--surface); }
+.game-table-surface .btn-quiet { min-height:42px; color:var(--muted); font-size:14px; }
+.game-table-surface .prototype-note { color:var(--muted); font-size:14px; }
+.card-drag-ghost { z-index:1000; color:var(--ink); background:var(--surface); box-shadow:0 22px 45px #00000030; border-color:var(--line); opacity:.98; }
+
+/* Goal and task text is no longer reduced to fine print. */
+.round-panel { display:flex; flex-direction:column; gap:20px; min-width:0; }
+.round-goal { display:flex; flex-direction:column; gap:15px; min-width:0; padding:25px; border:1px solid var(--line); border-radius:22px; background:var(--surface); }
+.goal-emblem { display:grid; place-items:center; width:48px; height:48px; margin-bottom:4px; border:1px solid var(--line); border-radius:14px; color:var(--red); background:var(--surface); }
+.goal-emblem .ui-icon { width:30px; height:30px; }
+.round-goal .eyebrow { font-size:12px; color:var(--muted); }
+.round-goal h2 { color:var(--ink); font-size:25px; letter-spacing:-.4px; }
+.goal-total { margin-top:8px; color:var(--ink); font-size:35px; letter-spacing:-1px; font-weight:700; overflow-wrap:anywhere; }
+.round-goal > p { margin-top:-9px; color:var(--muted); font-size:15px; }
+.round-goal .progress { height:7px; background:var(--line); margin:6px 0 8px; }
+.round-goal .progress > span { background:var(--red); }
+.round-goal .data-row, .round-goal .data-row strong { font-size:14px; }
+.round-goal .prototype-actions { flex-direction:column; gap:12px; }
+.round-goal .prototype-actions > .btn { min-height:46px; flex:auto; padding:12px; font-size:16px; }
+.round-goal .prototype-actions > .btn-primary { font-size:19px; font-weight:700; }
+.round-panel .task-card { padding:25px; gap:16px; border-color:var(--line); border-radius:22px; background:var(--surface); }
+.round-panel .task-card .eyebrow { color:var(--muted); font-size:12px; }
+.round-panel .task-card h3 { color:var(--ink); font-size:21px; line-height:1.4; font-weight:650; }
+.round-panel .task-card > p { font-size:15px; line-height:1.65; color:var(--muted); }
+.round-panel .task-card .prototype-note { font-size:14px; }
+.round-panel .task-card .data-row { font-size:14px; }
+.round-panel .task-card .progress { height:6px; background:var(--line); }
+.round-panel .task-card .prototype-actions > .btn { min-height:44px; padding:11px 13px; font-size:15px; }
+.round-panel .task-card .btn-quiet { min-height:40px; font-size:14px; padding:9px; }
+.round-panel .task-card .progress > span { background:var(--red); }
+.demo-events { padding:18px 20px; border-color:var(--line); border-radius:13px; background:var(--surface); color:var(--muted); font-size:14px; }
+.demo-events summary { min-height:28px; font-weight:500; }
+.screen-viewer { position:static; transform:none; align-self:center; justify-content:center; width:max-content; max-width:100%; margin:20px auto 0; box-shadow:none; border-color:var(--line); background:var(--surface); border-radius:10px; }
+.screen-viewer button { color:var(--muted); font-size:13px; min-height:38px; gap:8px; padding:8px 10px; }
+.screen-viewer .icon { width:17px; height:17px; }
+.viewer-step { width:34px; height:38px; font-size:17px; color:var(--muted); }
+.viewer-count { color:var(--muted); font-size:12px; }
+.prototype-footer { margin-top:30px; padding:18px 0 0; font-size:12px; color:var(--muted); border-top:1px solid var(--line); }
+.toast { bottom:24px; padding:14px 20px; border-radius:13px; background:var(--ink); color:var(--surface); font-size:15px; box-shadow:0 8px 24px #00000020; }
+.entry-grid .content-card { background:var(--surface); border-top:3px solid var(--red); }
+.entry-grid .btn-primary { margin-top:auto; }
+
+/* The bank promo uses the same palette as the game. */
+.bank-welcome { padding:10px 0 12px; }
+.bank-welcome .eyebrow { font-size:13px; color:var(--muted); }
+.bank-welcome h1 { margin:15px 0 10px; font-size:35px; font-weight:650; letter-spacing:-.7px; }
+.bank-welcome p { color:var(--muted); font-size:16px; }
+.bank-products { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.bank-account-tile { display:flex; flex-direction:column; align-items:flex-start; gap:13px; padding:25px; background:var(--surface); border:1px solid var(--line); border-radius:18px; text-align:left; color:var(--ink); }
+.bank-account-tile .ui-icon { width:28px; height:28px; color:var(--muted); }
+.bank-account-tile span { color:var(--muted); font-size:15px; }
+.bank-account-tile strong { margin-top:5px; font-size:30px; font-weight:650; letter-spacing:-.6px; }
+.bank-account-tile small { color:var(--muted); font-size:13px; }
+.bank-account-tile:hover { background:var(--soft); border-color:var(--muted); }
+.bank-game-promo { display:grid; grid-template-columns:minmax(0,1fr) 230px; align-items:center; gap:24px; min-height:300px; padding:36px; border:1px solid var(--line); border-radius:22px; background:var(--soft); overflow:hidden; }
+.bank-game-promo .eyebrow { font-size:12px; color:var(--muted); }
+.bank-game-promo h2 { color:var(--ink); font-size:36px; letter-spacing:-.9px; margin:15px 0 12px; }
+.bank-game-promo p { max-width:470px; font-size:16px; line-height:1.7; color:var(--muted); }
+.bank-game-promo .btn { margin-top:23px; min-height:48px; }
+.promo-cards { position:relative; height:240px; }
+.promo-envelope { position:absolute; right:-10px; top:25px; display:grid; place-items:center; width:170px; height:140px; border:1px solid var(--line); border-radius:13px; background:var(--line); color:var(--muted); transform:rotate(12deg); box-shadow:0 7px 0 #00000014; }
+.promo-envelope .ui-icon { width:75px; height:75px; stroke-width:.8; }
+.promo-card { position:absolute; top:30px; left:10px; display:flex; flex-direction:column; align-items:flex-start; gap:16px; width:135px; height:190px; padding:23px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface); color:var(--red); transform:rotate(-10deg); box-shadow:0 4px 0 var(--line),0 14px 20px #00000012; }
+.promo-card b { color:var(--ink); font-size:28px; letter-spacing:-.8px; }
+.promo-card small { color:var(--muted); font-size:14px; }
+.promo-seal { position:absolute; display:grid; place-items:center; width:46px; height:46px; right:12px; bottom:4px; background:var(--red); color:var(--surface); border-radius:50%; box-shadow:0 4px 0 #0000001F; }
+body[data-view=bank] .sidebar { top:24px; }
+body[data-view=home] .game-brand { display:none; }
+
+@media (max-width:1279px) {
+  .game-layout { grid-template-columns:minmax(0,1fr); }
+  .round-panel { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }
+  .bank-header.app-header { display:grid; grid-template-columns:minmax(0,1fr) auto 38px; gap:15px; min-height:0; padding:18px 0 13px; }
+  .bank-header .primary-nav { display:flex; grid-column:1/-1; grid-row:2; justify-content:flex-start; width:100%; gap:4px; }
+  .bank-header .primary-nav button { flex:1; padding:9px; }
+}
+@media (max-width:1000px) {
+  :root { --sidebar-width:180px; --layout-gap:22px; }
+  .bank-summary > strong { font-size:26px; }
+  .bank-header .primary-nav .icon { display:none; }
+  .bank-game-promo { grid-template-columns:minmax(0,1fr) 170px; padding:28px; }
+  .promo-cards { transform:scale(.85); transform-origin:center; }
+}
+@media (max-width:960px) {
+  .envelope-board { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:819px) {
+  .bank-app { padding:0 20px 28px; }
+  .app-shell { display:block; max-width:none; margin-top:25px; }
+  .sidebar { display:none; }
+  .page-content { gap:22px; }
+  .game-table-surface { padding:25px 20px 16px; }
+  .bank-game-promo { grid-template-columns:minmax(0,1fr) 190px; }
+}
+@media (max-width:700px) {
+  .round-panel { grid-template-columns:minmax(0,1fr); }
+  .round-goal { padding:24px; }
+  .bank-game-promo { grid-template-columns:minmax(0,1fr); padding:28px; }
+  .bank-game-promo .btn { width:100%; }
+  .promo-cards { height:205px; width:230px; margin:6px auto; }
+}
+@media (max-width:600px) {
+  .bank-app { padding-right:14px; padding-left:14px; }
+  .bank-identity { gap:9px; font-size:14px; }
+  .bank-alpha { width:28px; height:31px; font-size:29px; }
+  .bank-header .primary-nav button { min-height:42px; font-size:13px; padding:8px 4px; }
+  .bank-game-launch { font-size:14px; padding:10px 12px; }
+  .bank-game-launch .icon { display:none; }
+  .game-brand strong { font-size:23px; }
+  .game-brand small { font-size:13px; }
+  .prototype-toolbar { gap:7px; }
+  .prototype-toolbar .btn { font-size:13px; padding:9px 11px; }
+  .page-heading { align-items:flex-start; flex-wrap:wrap; gap:12px; }
+  .page-heading h1 { font-size:31px; }
+  .page-heading .eyebrow { font-size:12px; }
+  .player-status { font-size:12px; padding:7px 10px; }
+  .tabs { width:100%; }
+  .tabs > .btn { flex:1; font-size:14px; padding:10px 8px; min-height:44px; }
+  .game-stats { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; padding:20px 0; }
+  .game-stats > div + div { padding-left:18px; }
+  .game-stats > div:last-child { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; grid-column:1/-1; border-left:0; border-top:1px solid var(--line); padding:16px 0 0; }
+  .game-stats > div:last-child small { grid-column:1/-1; }
+  .game-stats span { font-size:14px; }
+  .game-stats strong { font-size:29px; letter-spacing:-.8px; }
+  .game-stats small { font-size:12px; }
+  .game-table-surface { padding:23px 16px 15px; border-radius:20px; }
+  .board-caption { padding-bottom:24px; }
+  .board-caption h2 { font-size:26px; }
+  .board-caption .eyebrow { font-size:12px; }
+  .board-status { font-size:13px !important; padding:8px 11px; }
+  .envelope-board { gap:14px; }
+  .envelope-board .figma-envelope { min-height:235px; padding:16px 12px 20px; }
+  .envelope-board .envelope-name { font-size:16px; }
+  .envelope-balance { font-size:28px; }
+  .envelope-board .figma-envelope > span:not(.envelope-symbol):not(.envelope-name) { font-size:13px; }
+  .envelope-board .envelope-plan { font-size:12px; }
+  .envelope-board .figma-envelope[data-tone=outside] { min-height:62px; padding:13px; }
+  .game-table-surface .interactive-hand { padding-top:25px; margin-top:28px; }
+  .game-table-surface .hand-heading { align-items:flex-start; gap:12px; }
+  .game-table-surface .hand-heading h2 { font-size:23px; }
+  .game-table-surface .hand-heading .badge { font-size:12px; }
+  .operation-slot { flex:0 0 210px; }
+  .interactive-operation { min-height:305px; }
+  .operation-name { font-size:18px; }
+  .content-card { padding:24px; }
+  .content-card h2 { font-size:24px; }
+  .bank-welcome h1 { font-size:30px; line-height:1.3; }
+  .bank-account-tile { padding:20px 17px; }
+  .bank-account-tile span { font-size:14px; }
+  .bank-account-tile strong { font-size:27px; }
+  .bank-game-promo h2 { font-size:34px; }
+  .screen-viewer { margin-top:12px; }
+}
+@media (max-width:480px) {
+  .bank-header.app-header { grid-template-columns:minmax(0,1fr) auto; gap:12px; }
+  .bank-avatar { display:none; }
+  .bank-products { grid-template-columns:minmax(0,1fr); }
+  .game-brand { align-items:flex-start; }
+  .game-brand-icon { width:42px; height:42px; }
+  .game-brand strong { font-size:22px; }
+  .prototype-toolbar .btn { flex:1 1 auto; }
+  .tabs > .btn { font-size:13px; padding:10px 6px; }
+  .game-table-surface { padding:21px 12px 14px; }
+  .envelope-board { gap:12px; }
+  .envelope-board .figma-envelope { padding:15px 10px 19px; }
+  .envelope-balance { font-size:26px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .interactive-operation,.envelope-drop-target,.btn { transition:none; }
+}
+/* Amounts stay intact, including the currency sign, when labels wrap. */
+.money-value { white-space:nowrap; font-variant-numeric:tabular-nums; }
+.envelope-board .envelope-plan { display:grid; gap:3px; }
+.allocation-row { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:2px 8px; }
+.prototype-actions > .btn { min-height:46px; font-size:16px; }
+.prototype-actions > .btn-primary { font-size:19px; font-weight:700; }
+
+/* The monthly loop surrounds the table without changing card interactions. */
+.month-journey { display:grid; gap:20px; padding:24px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+.journey-heading { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+.journey-heading h2 { font-size:22px; font-weight:650; }
+.journey-heading > span { color:var(--muted); font-size:14px; }
+.journey-steps { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; list-style:none; margin:0; padding:0; }
+.journey-steps li { min-width:0; margin:0; }
+.journey-link { display:flex; align-items:center; gap:8px; min-height:44px; padding:6px 0; color:var(--muted); font-size:14px; text-decoration:none; }
+.journey-link b { display:grid; place-items:center; flex:0 0 28px; height:28px; border:1px solid var(--line); border-radius:50%; background:var(--surface); font-size:13px; }
+.journey-steps .is-done .journey-link { color:var(--ink); }
+.journey-steps .is-done b { color:var(--ink); border-color:var(--ink); }
+a.journey-link:hover span { text-decoration:underline; }
+.journey-next { display:flex; align-items:center; justify-content:space-between; gap:22px; padding:18px; border-radius:12px; background:var(--soft); }
+.journey-next > div { min-width:0; }
+.journey-next h3 { margin:0 0 7px; font-size:18px; font-weight:650; line-height:1.4; }
+.journey-next p { color:var(--muted); font-size:15px; line-height:1.6; }
+.journey-next > .btn { flex-shrink:0; min-height:48px; font-size:19px; font-weight:700; }
+.month-journey > .prototype-actions { gap:10px; }
+.month-journey > .prototype-actions .btn { min-height:44px; font-size:15px; padding:10px 14px; }
+.envelope-slot { display:flex; flex-direction:column; min-width:0; gap:10px; }
+.envelope-slot > .figma-envelope { flex:1; width:100%; }
+.envelope-slot.envelope-outside { grid-column:1/-1; }
+.envelope-pinch { white-space:normal; padding:9px 8px; min-height:44px; border:1px solid var(--line); border-radius:10px; background:var(--surface); color:var(--ink); font-size:14px; font-weight:600; line-height:1.45; }
+.envelope-pinch:hover { border-color:var(--ink); background:var(--surface); }
+.envelope-board .figma-envelope .envelope-task { padding-top:8px; border-top:1px solid var(--line); color:var(--ink); font-size:13px; }
+.operation-type { font-size:13px; line-height:1.45; color:var(--muted); }
+.goal-milestone { display:grid; gap:9px; padding:14px; border:1px dashed var(--muted); border-radius:12px; }
+.goal-milestone strong { font-size:16px; }
+.goal-milestone p { color:var(--muted); font-size:14px; line-height:1.6; }
+.goal-milestone .btn { white-space:normal; }
+.archive-row { display:grid; gap:12px; padding:16px 0; border-top:1px solid var(--line); }
+.archive-row .btn { justify-self:start; }
+.transaction-row { flex-direction:row; flex-wrap:wrap; align-items:flex-start; }
+.transaction-row > div:first-child { min-width:0; flex:1 1 230px; }
+.transaction-row .prototype-actions { flex:1 1 230px; }
+.transaction-row > .prototype-note { flex-basis:100%; }
+.notice { display:grid; gap:12px; }
+.notice > .btn { justify-self:start; }
+.prototype-form select { appearance:none; -webkit-appearance:none; padding-right:42px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23505759' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 15px center; }
+[data-regular-fixed][hidden] { display:none; }
+#purchase-hand { scroll-margin-top:24px; }
+@media (max-width:1100px) {
+  .journey-steps { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .journey-next { flex-direction:column; align-items:stretch; }
+}
+@media (max-width:600px) {
+  .month-journey { padding:20px 16px; gap:16px; }
+  .journey-steps { gap:8px; }
+  .journey-link { font-size:13px; gap:6px; }
+  .journey-link b { flex-basis:23px; height:23px; font-size:12px; }
+  .journey-next { padding:16px; }
+  .month-journey > .prototype-actions .btn { flex:1 1 150px; font-size:14px; }
+}
