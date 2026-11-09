@@ -126,7 +126,7 @@ test('US-6: a starter suggestion adds the envelope in one click and respects sen
 test('US-7: opening from edited goal fields saves those exact values before showing terms',t=>{const x=boot(t,prepared(),'goal-edit');x.fill('name','Автомобиль');x.fill('target',900000);x.fill('deadline','2030-11');x.click('[data-action="save-goal-open"]');assert.equal(x.app().view,'deposit');assert.match(x.text(),/Автомобиль/);assert.equal(M.goal(x.app().state).target,900000);assert.equal(M.goal(x.app().state).opened,false);});
 
 test('bank shell: sections are inert placeholders, the game launcher opens Alfa envelopes with draggable purchases',t=>{
- const x=boot(t,null,'bank');assert.equal(x.q('main h1').textContent,'Добрый день, Александр');assert.match(x.w.document.title,/Альфа конверты/);
+ const x=boot(t,null,'bank');assert.equal(x.q('main h1').textContent,'Добрый день, Клиент');assert.match(x.w.document.title,/Альфа конверты/);
  const before=JSON.stringify(x.app().state);
  for(const control of x.qa('.app-header [data-bank-placeholder]')){control.click();assert.equal(x.app().view,'bank');assert.equal(JSON.stringify(x.app().state),before);assert.match(x.q('[data-message-content]').textContent,/Раздел пока недоступен/);assert(x.q('#demo-message').hasAttribute('open'));x.q('#demo-message').close();}
  x.click('.app-header [data-action="open-game"]');assert.equal(x.app().view,'table');assert.equal(x.qa('[data-operation]').length,3);assert.match(x.text(),/Альфа конверты/);assert(x.q('.game-table-surface'));assert(x.q('.round-goal'));
