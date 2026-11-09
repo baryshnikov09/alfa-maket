@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "build": "python3 build_site.py",
-    "build:pages": "python3 -B build_pages.py",
+    "build": "python3 -B build_pages.py",
     "check:pages": "python3 -B scripts/check_pages.py dist"
   },
   "devDependencies": {

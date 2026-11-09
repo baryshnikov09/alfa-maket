@@ -22,10 +22,9 @@
   const rewardLink=()=>link('Условия наград','reward-terms','','btn-quiet');
   let s,ctx={envelope:'cafe',source:'free',amount:3200};
   try{s=M.restore(JSON.parse(sessionStorage.getItem(KEY)));ctx={...ctx,...JSON.parse(sessionStorage.getItem(UIKEY)||'{}')};}catch{}
-  const screen=Number(document.body.dataset.screen);
-  const map={1:'bank',2:'savings',3:'intro',4:'trial',5:'trial-result',6:'new',7:'training',8:'setup',9:'goal-edit',10:'goal-edit',11:'goal-edit',12:'goal',13:'forecast',14:'forecast',15:'forecast',16:'forecast',17:'table',18:'forecast',19:'salary',20:'table',21:'table',22:'payroll',23:'payroll',24:'table',25:'table',26:'table',27:'table',28:'table',29:'envelope',30:'move',31:'envelope',32:'unplanned',33:'reserve',34:'reserve',35:'refund',36:'envelope',37:'rules',38:'rules',39:'tasks',40:'tasks',41:'tasks',42:'tasks',43:'pinch',44:'pinch',45:'pinch',46:'deposit',47:'goal',48:'confirm',49:'confirm',50:'result',51:'result',52:'goal',53:'goal',54:'regular',55:'regular',56:'regular',57:'withdraw',58:'result',59:'summary',60:'rewards',61:'reward-terms',62:'next',63:'table',64:'settings',65:'settings',66:'settings',67:'settings',68:'settings',69:'settings',70:'milestones',71:'milestones',72:'goal',73:'help'};
-  let view=location.hash.slice(1)||map[screen]||'home';
-  if(!s){s=M.create([6,7,10,14,21,22,23,24].includes(screen)?'B':'A');if([25,26,27,28,29,33].includes(screen)){M.setForecast(s,120000,Object.fromEntries(M.baseEnvelopes.map(x=>[x.id,x.plan])));M.distribute(s,s.receipts[0].id,M.suggestDistribution(s,s.receipts[0]));seedPurchases();}}
+  let view=location.hash.slice(1)||'bank';
+  if(!s)s=M.create('A');
+  if(view==='table')prepareTable();
   let toastTimer;
   function save(){try{sessionStorage.setItem(KEY,JSON.stringify(s));sessionStorage.setItem(UIKEY,JSON.stringify(ctx));}catch{}}
   function announce(text){const el=$('.toast');el.textContent=text;el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,4200);}
@@ -54,6 +53,7 @@
   function bankStub(label){const d=$('#demo-message');$('#message-title').textContent=label;$('[data-message-content]').textContent='Раздел пока недоступен в прототипе. Откройте «Игровой стол», чтобы попробовать «'+BRAND+'».';d.showModal();}
 
   function seedPurchases(){[['Кофейня',380,'restaurant'],['Супермаркет',1280,'supermarket'],['Такси',240,'taxi']].forEach(([name,amount,category])=>{if(M.cardBalance(s)>=amount)M.createPurchase(s,{name,amount,category});});}
+  function prepareTable(){if(!s.onboarded&&s.mode==='A'){M.setForecast(s,120000,Object.fromEntries(M.baseEnvelopes.map(x=>[x.id,x.plan])));const receipt=s.receipts.find(r=>!r.allocated&&r.month===s.month);if(receipt)M.distribute(s,receipt.id,M.suggestDistribution(s,receipt));if(!s.operations.length)seedPurchases();}}
   function nav(){return `<nav class="tabs" aria-label="Разделы конвертов">${['table','tasks','goal','summary'].map((v,i)=>link(['Мой стол','Задания','Цель','Итоги'][i],v,'',v===view?'btn-dark':'btn-secondary')).join('')}</nav>`;}
   function terms(){return `<div class="deposit-terms">${row('Ставка для расчёта','До 9% годовых · демонстрационный пример')}${row('Срок',month(g().deadline)+' · по сроку вашей цели')}${row('Пополнение','Доступно')}${row('Досрочное снятие','В примере проценты к выплате пересчитываются до 0 ₽')}${note('Ставка, порядок пересчёта процентов и ограничения — заглушки для согласования с продуктом и комплаенсом. Это условия демонстрации, а не предложение банка.')}</div>`;}
   function taskCard(compact=false){const t=M.task(s),first=!t.analytical,title=first?(t.kind==='payroll'?'Перенесите зарплату на карту':'Сделайте первую обычную покупку картой'):t.kind==='pinch'?`Отщипните ${money(t.target)} в цель`:'На 10% меньше на фастфуд';
@@ -218,7 +218,7 @@
     }
     event.preventDefault();const a=control.dataset.action;
     mutate(()=>{
-      if(a==='open-game'){if(!s.onboarded&&s.mode==='A'){M.setForecast(s,120000,Object.fromEntries(M.baseEnvelopes.map(x=>[x.id,x.plan])));const receipt=s.receipts.find(r=>!r.allocated&&r.month===s.month);if(receipt)M.distribute(s,receipt.id,M.suggestDistribution(s,receipt));if(!s.operations.length)seedPurchases();}go('table');}
+      if(a==='open-game'){prepareTable();go('table');}
       else if(a==='start-a'||a==='start-b'){s=M.create(a==='start-a'?'A':'B');ctx={envelope:'cafe',source:'card',amount:3200};go(a==='start-a'?'intro':'new');}
       else if(a==='quick-add'){const extra=M.extras.find(x=>x.id===control.dataset.id);if(!extra)throw Error('Выберите конверт.');if(s.envelopes.some(x=>x.type===extra.id))throw Error('Этот конверт уже добавлен.');M.addEnvelope(s,{name:extra.name,type:extra.id,plan:5000});announce('Конверт «'+extra.name+'» добавлен. Прогноз можно изменить.');}
       else if(a==='save-goal-open'){const f=$('[data-form="goal"]');if(!f.reportValidity())return;M.setGoal(s,readForm(f),Boolean(ctx.newGoal));ctx.newGoal=false;ctx.openOnly=true;go('deposit');}
@@ -267,11 +267,7 @@
     save();if(paint)render();return true;
   }
   window.EnvelopePrototype={boardData,place,announce,get state(){return s;},get view(){return view;}};
-  window.addEventListener('popstate',event=>{view=event.state?.view||location.hash.slice(1)||map[screen]||'home';ctx={...ctx,...event.state?.ctx};render();});
-  // Shared catalog and dialogs are kept outside the stateful page content.
-  $$('[data-open-catalog]').forEach(b=>b.addEventListener('click',()=>{$('#screen-catalog').showModal();$('[data-catalog-search]').focus();}));
+  window.addEventListener('popstate',event=>{view=event.state?.view||location.hash.slice(1)||'bank';ctx={...ctx,...event.state?.ctx};render();});
   $$('[data-close-dialog]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
-  $('[data-catalog-search]')?.addEventListener('input',event=>{const q=event.target.value.toLocaleLowerCase('ru');let count=0;$$('.catalog-entry').forEach(a=>{a.hidden=!a.textContent.toLocaleLowerCase('ru').includes(q);if(!a.hidden)count++;});$('.catalog-empty').hidden=count>0;});
-  $$('[data-demo-section]').forEach(b=>b.addEventListener('click',()=>bankStub(b.dataset.demoSection)));
   render();
 })();

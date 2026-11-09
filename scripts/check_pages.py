@@ -41,16 +41,16 @@ class References(HTMLParser):
 
 def check():
     if not (ROOT / "index.html").is_file() or not (ROOT / ".nojekyll").is_file():
-        raise ValueError("Build the site first: npm run build:pages")
-    pages = [ROOT / "index.html", *sorted((ROOT / "screens").glob("*.html"))]
-    if len(pages) != 74:
-        raise ValueError("Expected index.html and all 73 catalog screens")
+        raise ValueError("Build the site first: npm run build")
+    pages = sorted(ROOT.rglob("*.html"))
+    if {p.relative_to(ROOT).as_posix() for p in pages} != {"index.html", "screens/25.html"}:
+        raise ValueError("Expected the app entry and the legacy table redirect")
     for page in pages:
         References(page).feed(page.read_text(encoding="utf-8"))
     for css in ROOT.glob("*.css"):
         for value in re.findall(r"url\(\s*(['\"]?)(.*?)\1\s*\)", css.read_text(encoding="utf-8")):
             check_reference(css, value[1])
-    for name in (".git", ".github", "node_modules", "tests", "figma-source", "package.json", "screens.json", "routes.json"):
+    for name in (".git", ".github", "node_modules", "tests", "package.json"):
         if (ROOT / name).exists():
             raise ValueError(f"Development file included in the site: {name}")
     print(f"Pages check passed: {len(pages)} pages, assets and fonts resolve under {BASE_PATH}")

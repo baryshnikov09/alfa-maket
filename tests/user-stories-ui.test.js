@@ -10,9 +10,7 @@ const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const plans=()=>Object.fromEntries(M.baseEnvelopes.map(e=>[e.id,e.plan]));
 function prepared(mode='A'){const s=M.create(mode);s.hasCard=true;M.setForecast(s,120000,plans());if(mode==='B')M.receiveIncome(s,120000);M.distribute(s,s.receipts[0].id,M.suggestDistribution(s,s.receipts[0]));return s;}
 function boot(t,state=null,view='home',baseUrl='http://localhost:8767/'){
- const nested=/\/screens\/(\d\d\.html)$/.exec(new URL(baseUrl).pathname);
- const markup=nested?fs.readFileSync(path.join(root,'screens',nested[1]),'utf8'):html;
- const dom=new JSDOM(markup,{url:baseUrl+'#'+view,runScripts:'outside-only',pretendToBeVisual:true});
+ const dom=new JSDOM(html,{url:baseUrl+'#'+view,runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window,errors=[];w.addEventListener('error',event=>errors.push(event.error));
  w.scrollTo=()=>{};w.scrollBy=()=>{};w.matchMedia=()=>({matches:false});
  w.HTMLElement.prototype.scrollIntoView=function(){};
@@ -176,16 +174,21 @@ test('US-19: task progress follows its category binding into the associated enve
  assert(!x.q('[data-drop-envelope="cafe"] .envelope-task'));x.click('[data-drop-envelope="transport"]');assert(x.q('.task-card'));
 });
 
-test('GitHub Pages: root and nested screen navigation retain the repository path and local assets',t=>{
+test('GitHub Pages: root and index entry retain the repository path and local assets',t=>{
  const prefix='https://example.github.io/alfa-envelopes/';
- for(const url of [prefix,prefix+'screens/25.html']){
+ for(const url of [prefix,prefix+'index.html']){
   const x=boot(t,prepared(),'table',url);
   for(const asset of x.qa('script[src],link[rel="stylesheet"],link[rel="icon"]')){
    assert((asset.src||asset.href).startsWith(prefix));
-   assert(!(asset.src||asset.href).includes('/screens/assets/'));
   }
   x.click('main [data-view="goal"]');assert.equal(x.app().view,'goal');assert.equal(x.w.location.href,url+'#goal');
   x.click('main [data-view="table"]');x.click('main [data-view="history"]');assert.equal(x.w.location.href,url+'#history');
-  for(const entry of x.qa('.catalog-entry'))assert(entry.href.startsWith(prefix+'screens/'));
+  assert(!x.q('.screen-viewer'));assert(!x.q('#screen-catalog'));
  }
+});
+
+test('the direct table URL prepares a playable first session and preserves saved new-client progress',t=>{
+ const x=boot(t,null,'table');assert.equal(x.qa('[data-operation]').length,3);assert.equal(M.cardBalance(x.app().state),118100);
+ const saved=prepared('B');M.createPurchase(saved,{name:'Магазин',amount:500,category:'supermarket'});
+ const y=boot(t,saved,'table');assert.equal(y.app().state.mode,'B');assert.equal(y.qa('[data-operation]').length,1);assert.equal(M.cardBalance(y.app().state),119500);
 });
